@@ -14,5 +14,5 @@ struct  Article {
     var content: String
     var tag: String
     var author: String
-    var created_time: Int
+    var createdTime: Int
 }
