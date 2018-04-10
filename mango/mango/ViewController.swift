@@ -9,7 +9,6 @@
 import UIKit
 import FirebaseAuth
 
-
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -27,6 +26,20 @@ class ViewController: UIViewController {
                 print("error: \(error)")
             }
         }
+    }
+
+    @IBAction func signInButtonPressed(_ sender: Any) {
+        Auth.auth().signIn(withEmail: "pore0814@gmail.com", password: "123456") { (user, error) in
+            if let user = user {
+                print("user id: \(user.uid)")
+                self.performSegue(withIdentifier: "goToFriendPage", sender: self)
+                
+            }
+            if let error = error {
+                print("error: \(error)")
+            }
+        }
+
     }
 }
 

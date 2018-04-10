@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		742C8CC2ECD49C8B78819542 /* Pods_mango.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 494E7B0B9808909AA0A4FBDF /* Pods_mango.framework */; };
+		D17ADF3B207C602A0010BD30 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17ADF3A207C602A0010BD30 /* FriendViewController.swift */; };
+		D17ADF3D207C60510010BD30 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17ADF3C207C60510010BD30 /* ArticleViewController.swift */; };
 		FAC806FF207C4A3B0032DCA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC806FE207C4A3B0032DCA5 /* AppDelegate.swift */; };
 		FAC80701207C4A3B0032DCA5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC80700207C4A3B0032DCA5 /* ViewController.swift */; };
 		FAC80704207C4A3B0032DCA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAC80702207C4A3B0032DCA5 /* Main.storyboard */; };
@@ -19,6 +21,8 @@
 /* Begin PBXFileReference section */
 		494E7B0B9808909AA0A4FBDF /* Pods_mango.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mango.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C74B5AC4A5FFE8835DF6374C /* Pods-mango.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mango.release.xcconfig"; path = "Pods/Target Support Files/Pods-mango/Pods-mango.release.xcconfig"; sourceTree = "<group>"; };
+		D17ADF3A207C602A0010BD30 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
+		D17ADF3C207C60510010BD30 /* ArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
 		E3FF4A58992C49DD2A8628D0 /* Pods-mango.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mango.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mango/Pods-mango.debug.xcconfig"; sourceTree = "<group>"; };
 		FAC806FB207C4A3A0032DCA5 /* mango.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mango.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAC806FE207C4A3B0032DCA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 				FAC806FE207C4A3B0032DCA5 /* AppDelegate.swift */,
 				FAC80700207C4A3B0032DCA5 /* ViewController.swift */,
 				FAC80702207C4A3B0032DCA5 /* Main.storyboard */,
+				D17ADF3C207C60510010BD30 /* ArticleViewController.swift */,
+				D17ADF3A207C602A0010BD30 /* FriendViewController.swift */,
 				FAC80705207C4A3B0032DCA5 /* Assets.xcassets */,
 				FAC80707207C4A3B0032DCA5 /* LaunchScreen.storyboard */,
 				FAC8070A207C4A3B0032DCA5 /* Info.plist */,
@@ -225,6 +231,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D17ADF3B207C602A0010BD30 /* FriendViewController.swift in Sources */,
+				D17ADF3D207C60510010BD30 /* ArticleViewController.swift in Sources */,
 				FAC80701207C4A3B0032DCA5 /* ViewController.swift in Sources */,
 				FAC806FF207C4A3B0032DCA5 /* AppDelegate.swift in Sources */,
 			);
