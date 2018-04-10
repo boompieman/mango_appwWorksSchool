@@ -13,6 +13,6 @@ struct  Article {
     var title: String
     var content: String
     var tag: String
-    var author: String
+    var author: Author
     var createdTime: Int
 }

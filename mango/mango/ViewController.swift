@@ -18,7 +18,7 @@ class ViewController: UIViewController {
 
     
     @IBAction func signUpButtonPressed(_ sender: Any) {
-        Auth.auth().createUser(withEmail: "pore0814@gmail.com", password: "123456") { (user, error) in
+        Auth.auth().createUser(withEmail: "test@gmail.com", password: "123456") { (user, error) in
             
             if let user = user {
                 print("user id: \(user.uid)")
