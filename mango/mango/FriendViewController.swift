@@ -12,43 +12,20 @@ import FirebaseDatabase
 
 class FriendViewController: UIViewController {
     
-    var ref: DatabaseReference!
+    var ref: DatabaseReference?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        ref = Database.database().reference()
-        print(ref)
+        self.ref = Database.database().reference()
+        addFriend()
         
-        create_friend()
-        
-        
-//        print(Auth.auth().currentUser?.uid)
-        // Do any additional setup after loading the view.
     }
     
-    func create_friend() {
-        let userID = Auth.auth().currentUser?.uid
-//        let key = ref.child("friends").childByAutoId().key
-        let friendID = "Friend1"
-        self.ref.child("friends").child(userID!).child(friendID).setValue(["friendName": "Sam",
-                                                          "email":"sam@gmail.com"])
+    func addFriend() {
         
-//        print(key)
-        
-//        let friend = ["id": "userID",
-//                      "email": "email@gmail.com" ]
-        
-        
-        
-//        let post = ["uid": userID,
-//                    "author": username,
-//                    "title": title,
-//                    "body": body]
-        
-//        let childUpdates = ["/posts/\(key)": post,
-//                            "/user-posts/\(userID)/\(key)/": post]
-//        ref.updateChildValues(childUpdates)
+        let user = Auth.auth().currentUser
+        self.ref?.child("users").child((user?.uid)!).child("friends").child("ZyissGZesFhDlRp4l6dPjIvEwag2").updateChildValues(["email":"pore0814@gmail.com"])
     }
 
     override func didReceiveMemoryWarning() {
