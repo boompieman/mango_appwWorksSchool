@@ -109,9 +109,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wK6-2u-nmx">
-                                <rect key="frame" x="164" y="278" width="46" height="30"/>
+                                <rect key="frame" x="148" y="278" width="79" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="Post Article"/>
                                 <connections>
                                     <action selector="postArticle:" destination="PVG-lY-VJB" eventType="touchUpInside" id="cEC-6f-PCw"/>
                                 </connections>
