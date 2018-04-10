@@ -47,7 +47,7 @@ class ArticleViewController: UIViewController {
         
         let author = ["id": article.author.id, "email": article.author.email]
 
-            self.ref?.child("articles").child(id!).setValue(post)
+        self.ref?.child("articles").child(id!).setValue(post)
         self.ref?.child("articles").child(id!).child("author").updateChildValues(author)
 
     }

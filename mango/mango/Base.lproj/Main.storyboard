@@ -53,10 +53,36 @@
         <!--Friend-->
         <scene sceneID="IaW-Lx-NgO">
             <objects>
-                <viewController id="c9r-0Z-PMs" customClass="FriendViewController" customModule="mango" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="c9r-0Z-PMs" customClass="userProfileViewController" customModule="mango" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="b1i-d4-vVH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vx0-Ou-YDy">
+                                <rect key="frame" x="78" y="103" width="70" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="addFriend"/>
+                                <connections>
+                                    <action selector="addFriendTaped:" destination="c9r-0Z-PMs" eventType="touchUpInside" id="lcn-2K-byj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HTN-bk-8yx">
+                                <rect key="frame" x="78" y="152" width="65" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="friendList"/>
+                                <connections>
+                                    <action selector="friendListTapped:" destination="c9r-0Z-PMs" eventType="touchUpInside" id="ISs-Df-4Rf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8eU-eF-HlT">
+                                <rect key="frame" x="78" y="202" width="111" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="friendInvitations"/>
+                                <connections>
+                                    <action selector="friendInvitationsTapped:" destination="c9r-0Z-PMs" eventType="touchUpInside" id="fV0-qd-qep"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="rpd-1c-Vfb"/>
                     </view>
