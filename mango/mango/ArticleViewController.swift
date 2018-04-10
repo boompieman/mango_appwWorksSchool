@@ -12,40 +12,41 @@ import FirebaseDatabase
 
 class ArticleViewController: UIViewController {
     
-    var ref: DatabaseReference!
-    var articles :Article?
-    var author : Author?
+    var ref: DatabaseReference?
+//    var articles :Article?
+//    var author : Author?
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // print(Auth.auth().currentUser?.uid)
         
-        
-      
-       
+          ref = Database.database().reference()
+
     }
     
 
     @IBAction func postArticle(_ sender: Any) {
-        let  id = ref.child("articls").childByAutoId().key
-        author = Author(id: (Auth.auth().currentUser?.uid)!, email: (Auth.auth().currentUser?.email)!)
-        articles = Article(id: id, title: "ios 標題", content: "ios 內容", tag:"ios 生活" , author: Author(id: (author?.id)!, email: (author?.email)!), createdTime: 20170814)
-       
         
-        ref = Database.database().reference()
+      // let currentUser = Auth.auth()
         
+        let id = self.ref?.child("articles").childByAutoId().key
         
+        let article = Article(id: id!, title: "ios 標題", content: "ios 內容", tag:"ios 生活" , author: Author(id:(Auth.auth().currentUser?.uid)!, email:(Auth.auth().currentUser?.email)!), createdTime: 20179814)
+
+        let post =
+        [
+            "title": article.title,
+            "content":article.content ,
+            "tag":article.tag,
+            "createdTime": article.createdTime
+        ] as [String : Any]
         
-        let key = ref.child("articles").childByAutoId().key
-        let post = ["id": articles?.id,
-                    "content":articles?.content ,
-                    "creatTime": articles?.createdTime,
-                    "tag":articles?.tag ]
-                 
-     
-        ref.updateChildValues(childUpdates) as [String : Any]
-        
+        let author = ["id": article.author.id, "email": article.author.email]
+
+            self.ref?.child("articles").child(id!).setValue(post)
+        self.ref?.child("articles").child(id!).child("author").updateChildValues(author)
+
     }
     
 
