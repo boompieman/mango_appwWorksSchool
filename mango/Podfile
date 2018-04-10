@@ -8,5 +8,6 @@ target 'mango' do
   # Pods for mango
 
 pod 'Firebase/Core'
+pod 'Firebase/Auth'
 
 end

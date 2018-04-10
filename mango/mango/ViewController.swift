@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ViewController: UIViewController {
 
@@ -15,11 +16,20 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @IBAction func signUpButtonPressed(_ sender: Any) {
+        Auth.auth().createUser(withEmail: "pore0814@gmail.com", password: "123456") { (user, error) in
+            
+            if let user = user {
+                print("user id: \(user.uid)")
+            }
+            if let error = error {
+                print("error: \(error)")
+            }
+        }
+      
     }
-
+    
 
 }
 
