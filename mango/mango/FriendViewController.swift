@@ -8,13 +8,47 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 
 class FriendViewController: UIViewController {
-
+    
+    var ref: DatabaseReference!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(Auth.auth().currentUser?.uid)
+
+        ref = Database.database().reference()
+        print(ref)
+        
+        create_friend()
+        
+        
+//        print(Auth.auth().currentUser?.uid)
         // Do any additional setup after loading the view.
+    }
+    
+    func create_friend() {
+        let userID = Auth.auth().currentUser?.uid
+//        let key = ref.child("friends").childByAutoId().key
+        let friendID = "Friend1"
+        self.ref.child("friends").child(userID!).child(friendID).setValue(["friendName": "Sam",
+                                                          "email":"sam@gmail.com"])
+        
+//        print(key)
+        
+//        let friend = ["id": "userID",
+//                      "email": "email@gmail.com" ]
+        
+        
+        
+//        let post = ["uid": userID,
+//                    "author": username,
+//                    "title": title,
+//                    "body": body]
+        
+//        let childUpdates = ["/posts/\(key)": post,
+//                            "/user-posts/\(userID)/\(key)/": post]
+//        ref.updateChildValues(childUpdates)
     }
 
     override func didReceiveMemoryWarning() {
