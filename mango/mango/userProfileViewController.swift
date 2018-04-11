@@ -26,7 +26,7 @@ class userProfileViewController: UIViewController,UITableViewDelegate,UITableVie
     
     @IBOutlet weak var observerSwitch: UISwitch!
     
-    var isFirstObserve = true
+    var isObserverOpened = true
     
     var requestHandler: UInt?
     
@@ -45,7 +45,8 @@ class userProfileViewController: UIViewController,UITableViewDelegate,UITableVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // open the listener
-
+        
+        
         notificationFromRequest()
     }
     
@@ -131,6 +132,8 @@ class userProfileViewController: UIViewController,UITableViewDelegate,UITableVie
         let request = Database.database().reference().ref.child("requests")
         
         
+        
+        
         self.requestHandler = request.observe(.childAdded, with: {(snapShot) in
             guard let request = snapShot.value as? [String: AnyObject] else {
                 return
@@ -144,85 +147,71 @@ class userProfileViewController: UIViewController,UITableViewDelegate,UITableVie
                 return
             }
             
-            if toID == self.currentUser.id {
-                print("aaaaaa")
-//                self.showRequest(request:)
-                print(self.isFirstObserve)
-            }
             
-            if self.isFirstObserve == false {
-                
-            }
-
-            self.isFirstObserve = false
             
-            print("=======")
-            print(toEmail)
-            print("=======")
-            print(self.isFirstObserve)
+//
+//            if self.isObserverOpened == false && toID == self.currentUser.id {
+//
+//                let newRequest = Request(id: snapShot.key, fromUser: Author(id: fromID, email: fromEmail), toUser: Author(id: toID, email: toEmail))
+//                self.showRequest(request: newRequest)
+//            }
+//
+//            self.isObserverOpened = false
+            
+//            print("=======")
+//            print(toEmail)
+//            print("=======")
+//            print(self.isFirstObserve)
         })
     }
     
-//    func showRequest(request: Request) {
-//        // 建立一個提示框
-//        
-//        print("====show====")
-//        
-//        let alertController = UIAlertController(
-//            title: "想有朋友？",
-//            message: "這是一個來自\(from.email)的交友邀請",
-//            preferredStyle: .alert)
-//        
-//        // 建立[確認]按鈕
-//        let yesAction = UIAlertAction(
-//            title: "好Ｒ，當朋友",
-//            style: .default,
-//            handler: {
-//                (action: UIAlertAction!) -> Void in
-//                print("按下確認後，閉包裡的動作")
-//        })
-//        alertController.addAction(yesAction)
-//        
-//        let noAction = UIAlertAction(
-//            title: "滾喇～",
-//            style: .default,
-//            handler: {
-//                (action: UIAlertAction!) -> Void in
-//                print("按下確認後，閉包裡的動作")
-//        })
-//        alertController.addAction(noAction)
-//        
-//        // 顯示提示框
-//        self.present(
-//            alertController,
-//            animated: true,
-//            completion: nil)
-//    }
+    func showRequest(request: Request) {
+        // 建立一個提示框
+        
+        print("====show====")
+        
+        let alertController = UIAlertController(
+            title: "想有朋友？",
+            message: "這是一個來自\(request.fromUser.email)的交友邀請",
+            preferredStyle: .alert)
+        
+        // 建立[確認]按鈕
+        let yesAction = UIAlertAction(
+            title: "好Ｒ，當朋友",
+            style: .default,
+            handler: {
+                (action: UIAlertAction!) -> Void in
+                self.ref.child("requests").child(request.id).removeValue()
+                self.addFriend(from: request.fromUser)
+        })
+        alertController.addAction(yesAction)
+        
+        let noAction = UIAlertAction(
+            title: "滾喇～",
+            style: .default,
+            handler: {
+                (action: UIAlertAction!) -> Void in
+                self.ref.child("requests").child(request.id).removeValue()
+        })
+        alertController.addAction(noAction)
+        
+        // 顯示提示框
+        self.present(
+            alertController,
+            animated: true,
+            completion: nil)
+    }
     
     @IBAction func isObservedOpened(_ sender: Any) {
         
         let onState = observerSwitch.isOn
         
         if onState {
-            let dispatchGroup = DispatchGroup()
-            
-            dispatchGroup.enter()
-            
             notificationFromRequest()
-            
-            dispatchGroup.leave()
-            
-            dispatchGroup.notify(queue: .main) {
-                //跑得快但後執行的task
-                self.isFirstObserve = false
-            }
-            
         }
         else {
             ref.child("requests").removeObserver(withHandle: self.requestHandler!)
-            isFirstObserve = true
         }
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -251,9 +240,6 @@ class userProfileViewController: UIViewController,UITableViewDelegate,UITableVie
     @objc func approveRequest(_ sender: UIButton) {
         
         ref.child("requests").child(self.requests[sender.tag].id).removeValue()
-        
-        print(self.requests[sender.tag].fromUser)
-        
         addFriend(from: self.requests[sender.tag].fromUser)
         
         
