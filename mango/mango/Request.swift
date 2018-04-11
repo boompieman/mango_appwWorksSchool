@@ -1,41 +1,15 @@
 //
-//  RequestViewController.swift
-//  
+//  Request.swift
+//  mango
 //
-//  Created by MACBOOK on 2018/4/10.
+//  Created by MACBOOK on 2018/4/11.
+//  Copyright © 2018年 MACBOOK. All rights reserved.
 //
 
-import UIKit
-import FirebaseAuth
-import FirebaseDatabase
+import Foundation
 
-class Request {
-    
-    let request = Database.database().reference().ref.child("requests")
-    
-    var currentUser = Author(id: (Auth.auth().currentUser?.uid)!, email: (Auth.auth().currentUser?.email)!)
-    
-    
-        
-//    addRequest(currentUser, sendRequstTo: Author(id: "12345", email: "abcd@gmail.com"))
-    
-    func getRequestID() -> String {
-        
-        return request.childByAutoId().key
-    }
-    
-    
-    func sendRequest(_ from: Author, sendRequstTo to: Author) {
-        
-        let requestID = getRequestID()
-        
-        let fromUser = ["id": from.id, "email": from.email]
-        let toUser = ["id": to.id, "email": to.email]
-        
-        let childUpdates = ["/from":fromUser,
-                            "/to":toUser]
-        
-        request.child(requestID).updateChildValues(childUpdates)
-    }
+struct Request {
+    var id: String
+    var fromUser: Author
+    var toUser: Author
 }
-

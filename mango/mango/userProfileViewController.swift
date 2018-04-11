@@ -10,9 +10,13 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
-class userProfileViewController: UIViewController {
+
+
+class userProfileViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     
+    
+    @IBOutlet weak var friendListView: UITableView!
     
     
     let ref: DatabaseReference = Database.database().reference()
@@ -20,25 +24,38 @@ class userProfileViewController: UIViewController {
     var currentUser = Author(id: (Auth.auth().currentUser?.uid)!, email: (Auth.auth().currentUser?.email)!)
     
     
+    @IBOutlet weak var observerSwitch: UISwitch!
     
+    var isFirstObserve = true
+    
+    var requestHandler: UInt?
+    
+    var requests: [Request] = [Request]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.friendListView.delegate = self
+        self.friendListView.dataSource = self
+        
+        let nib = UINib(nibName: "FriendListViewCell", bundle: nil)
+        self.friendListView.register(nib, forCellReuseIdentifier: "FriendListViewCell")
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // open the listener
+
         notificationFromRequest()
-        
     }
     
     
-    func addFriend() {
+    func addFriend(from: Author) {
         
-        let user = Auth.auth().currentUser
-    self.ref.child("users").child((user?.uid)!).child("friends").child("rn5Zag6r74cYm4DFQrVO3CHRWWf1").updateChildValues(["email":"faydee1220@gmail.com"])
+        let currentUser = Auth.auth().currentUser
+        self.ref.child("users").child((currentUser?.uid)!).child("friends").child(from.id).updateChildValues(["email":from.email])
+        
+        self.ref.child("users").child(from.id).child("friends").child((currentUser?.uid)!).updateChildValues(["email": currentUser?.email])
     }
     
     
@@ -63,22 +80,22 @@ class userProfileViewController: UIViewController {
     
     @IBAction func friendInvitationsTapped(_ sender: Any) {
         
+        self.requests.removeAll()
+        
         let request = ref.child("requests")
-        request.observe(.value, with: {(snapShot) in
+        request.observeSingleEvent(of: .value, with: {(snapShot) in
             
             let invitations = snapShot.value as? [String : AnyObject] ?? [:]
+            
+            
             for invitation in invitations {
                 
-//                print("======")
-//                print(invitation)
+                
                 
                 guard let invitationParsed = invitation.value as? [String: AnyObject] else {
                         return
                 }
-                
-//                print("======")
-//                print(invitationParsed["to"])
-                
+    
                 guard let to = invitationParsed["to"], let from = invitationParsed["from"] else {
                     return
                 }
@@ -88,37 +105,168 @@ class userProfileViewController: UIViewController {
                 }
                 
                 if toID == self.currentUser.id {
-                    print("======")
-                    print("the invitation is from ", fromEmail)
+
+                    
+                    let requestToMe = Request(id: invitation.key ,fromUser: Author(id: fromID, email: fromEmail), toUser: Author(id: toID, email: toEmail))
+                    self.requests.append(requestToMe)
+                    print("requests:",self.requests)
+                    self.friendListView.reloadData()
+//                    print("======")
+//                    print("the invitation is from ", fromEmail)
                 }
             }
         })
     }
     
-    @IBAction func addFriendTaped(_ sender: Any) {
-//        addFriend()
+    @IBAction func sendRequestTaped(_ sender: Any) {
+        let friendRequest = RequestManager()
         
-        let friendRequest = Request()
-        friendRequest.sendRequest(self.currentUser, sendRequstTo: Author(id: "rn5Zag6r74cYm4DFQrVO3CHRWWf1", email: "faydee@gmail.com"))
+        
+        
+        friendRequest.sendRequest(self.currentUser, sendRequstTo: Author(id: "rn5Zag6r74cYm4DFQrVO3CHRWWf1", email: "faydee1280@gmail.com"))
     }
     
     func notificationFromRequest() {
         
         let request = Database.database().reference().ref.child("requests")
         
-        request.observe(.childAdded, with: {(snapShot) in
-            print("----This is request --------")
+        
+        self.requestHandler = request.observe(.childAdded, with: {(snapShot) in
             guard let request = snapShot.value as? [String: AnyObject] else {
-                print("--------- error -----")
-                
                 return
-                
             }
             
-                print("=======")
+            guard let to = request["to"], let from = request["from"] else {
+                return
+            }
             
-                print(request)
-                print("=======")
+            guard let toID = to["id"] as? String, let toEmail = to["email"] as? String, let fromID = from["id"] as? String, let fromEmail = from["email"] as? String else {
+                return
+            }
+            
+            if toID == self.currentUser.id {
+                print("aaaaaa")
+//                self.showRequest(request:)
+                print(self.isFirstObserve)
+            }
+            
+            if self.isFirstObserve == false {
+                
+            }
+
+            self.isFirstObserve = false
+            
+            print("=======")
+            print(toEmail)
+            print("=======")
+            print(self.isFirstObserve)
         })
+    }
+    
+//    func showRequest(request: Request) {
+//        // 建立一個提示框
+//        
+//        print("====show====")
+//        
+//        let alertController = UIAlertController(
+//            title: "想有朋友？",
+//            message: "這是一個來自\(from.email)的交友邀請",
+//            preferredStyle: .alert)
+//        
+//        // 建立[確認]按鈕
+//        let yesAction = UIAlertAction(
+//            title: "好Ｒ，當朋友",
+//            style: .default,
+//            handler: {
+//                (action: UIAlertAction!) -> Void in
+//                print("按下確認後，閉包裡的動作")
+//        })
+//        alertController.addAction(yesAction)
+//        
+//        let noAction = UIAlertAction(
+//            title: "滾喇～",
+//            style: .default,
+//            handler: {
+//                (action: UIAlertAction!) -> Void in
+//                print("按下確認後，閉包裡的動作")
+//        })
+//        alertController.addAction(noAction)
+//        
+//        // 顯示提示框
+//        self.present(
+//            alertController,
+//            animated: true,
+//            completion: nil)
+//    }
+    
+    @IBAction func isObservedOpened(_ sender: Any) {
+        
+        let onState = observerSwitch.isOn
+        
+        if onState {
+            let dispatchGroup = DispatchGroup()
+            
+            dispatchGroup.enter()
+            
+            notificationFromRequest()
+            
+            dispatchGroup.leave()
+            
+            dispatchGroup.notify(queue: .main) {
+                //跑得快但後執行的task
+                self.isFirstObserve = false
+            }
+            
+        }
+        else {
+            ref.child("requests").removeObserver(withHandle: self.requestHandler!)
+            isFirstObserve = true
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.requests.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath)
+        -> CGFloat {
+            return 150
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: FriendListViewCell = friendListView.dequeueReusableCell(withIdentifier: "FriendListViewCell") as! FriendListViewCell
+        cell.invitationLabel.text = "這是一封來自\(self.requests[indexPath.row].fromUser.email)的交友邀情"
+        
+        cell.noButton.tag = indexPath.row
+        cell.noButton.addTarget(self, action: #selector(rejectRequest(_ :)), for: .touchUpInside)
+        
+        cell.yesButton.tag = indexPath.row
+        cell.yesButton.addTarget(self, action: #selector(approveRequest(_ :)), for: .touchUpInside)
+        
+        
+        return cell
+    }
+    
+    @objc func approveRequest(_ sender: UIButton) {
+        
+        ref.child("requests").child(self.requests[sender.tag].id).removeValue()
+        
+        print(self.requests[sender.tag].fromUser)
+        
+        addFriend(from: self.requests[sender.tag].fromUser)
+        
+        
+        self.requests.remove(at: sender.tag)
+        self.friendListView.reloadData()
+    }
+    
+    @objc func rejectRequest(_ sender: UIButton) {
+        
+       
+        ref.child("requests").child(self.requests[sender.tag].id).removeValue()
+        
+        self.requests.remove(at: sender.tag)
+        self.friendListView.reloadData()
     }
 }
