@@ -26,7 +26,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qxt-oq-O9G">
-                                <rect key="frame" x="164" y="242" width="47" height="30"/>
+                                <rect key="frame" x="159" y="138" width="56" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Sign In"/>
                                 <connections>
@@ -83,11 +83,19 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wK6-2u-nmx">
-                                <rect key="frame" x="148" y="278" width="79" height="30"/>
+                                <rect key="frame" x="143" y="134" width="88" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Post Article"/>
                                 <connections>
                                     <action selector="postArticle:" destination="PVG-lY-VJB" eventType="touchUpInside" id="cEC-6f-PCw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IUR-BC-wpE">
+                                <rect key="frame" x="90" y="197" width="218" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Tag=&quot;ios 生活&quot;AndOrderByTime"/>
+                                <connections>
+                                    <action selector="timeAndTab:" destination="PVG-lY-VJB" eventType="touchUpInside" id="1oM-Ng-zmM"/>
                                 </connections>
                             </button>
                         </subviews>
