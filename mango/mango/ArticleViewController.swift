@@ -15,8 +15,11 @@ class ArticleViewController: UIViewController {
     
     var ref: DatabaseReference?
     var getFriendId = [String]()
+    var tagAndTime = [Article]()
     var id: String?
-    
+    var a: Article?
+    var b: Article?
+
  
 //    var articles :Article?
 //    var author : Author?
@@ -29,11 +32,11 @@ class ArticleViewController: UIViewController {
         //  getFriendUserId()
        // print("getfriend",getFriendId)
      findArticles(friendid: "rn5Zag6r74cYm4DFQrVO3CHRWWf1")
-        
-
+    
     }
     
-
+   
+    
     @IBAction func postArticle(_ sender: Any) {
       // let currentUser = Auth.auth()
         
@@ -85,11 +88,6 @@ class ArticleViewController: UIViewController {
         
         var articlesArray = [Article]() // 儲存比對後資料
         self.ref?.child("articles")
-            
-//                 .child("rn5Zag6r74cYm4DFQrVO3CHRWWf1")
-//                 .child("author")
-            
-//
             .observeSingleEvent(of: .value, with: { (snapshot) in
                 // Get user value
             if   let articles = snapshot.value as? [String:AnyObject] {
@@ -106,32 +104,17 @@ class ArticleViewController: UIViewController {
                         let authorId = author["id"] as? String,
                         let authorEmail = author["email"] as? String,
                         let createdTime = eachArticle["createdTime"] as? Int
-                        
-                    {
-               
-                       // one.title
-                        let a = Article(id: article.key, title: title, content:content , tag: tag, author:Author(id: authorId, email: authorEmail) , createdTime: createdTime)
-print("author.id",a.author.id)
-print("friend",friendid)
-                        
-                        if friendid == a.author.id {
-                            articlesArray.append(a)
-                            print("articleArray",articlesArray)
+                   {
+
+                        self.a = Article(id: article.key, title: title, content:content , tag: tag, author:Author(id: authorId, email: authorEmail) , createdTime:createdTime)
+
+                        if friendid == self.a!.author.id {
+                            articlesArray.append(self.a!)
+                         //   print("articleArray",articlesArray)
                         }
-                        
-                    }
-                 
-                }
+                   }
+                 }
                }
-                
-             //   guard let articleKey = value?.allKeys as? [String] else {return}
-               
-                //            let
-//                user = User(username: username)
-//                print("key",friendsKey)
-//                //         print("friend",friends)
-//                self.findArticles(friends: friends)
-                
             }) { (error) in
                 print(error.localizedDescription)
         }
@@ -140,11 +123,55 @@ print("friend",friendid)
     }
     
 
-    
+    @IBAction func timeAndTab(_ sender: Any) {
+        self.ref?.child("articles")
+            .observeSingleEvent(of: .value, with: { (snapshot) in
+          
+            // Get user value
+            if  let getartiles = snapshot.value as? [String:AnyObject]{
+           
+                for getarticle in getartiles {
+                    //var article = Article()
+                    guard let tag = getarticle.value["tag"] as? String  else{return}
 
-    
-    
-    
+                    guard let title = getarticle.value["title"] as? String
+                        else { return}
+     
+                    guard let content = getarticle.value["content"] as? String else { return}
+
+                    
+                    guard let  author = getarticle.value["author"] as? [String:AnyObject] else{return}
+                   // print(author)
+                    guard let authorId = author["id"] as? String else{return}
+                   // print(authorId)
+                    guard    let authorEmail = author["email"] as? String else{return}
+                   // print(authorEmail)
+                    guard let createdTime = getarticle.value["createdTime"] as? Int else { return}
+                    
+                    self.a = Article(id: getarticle.key, title: title, content: content, tag: tag, author: Author(id: authorId, email: authorEmail), createdTime: createdTime)
+                    
+                    let date1 = Date(timeIntervalSince1970: TimeInterval(1523365200)) //2018年4月10日星期二 21:00:00
+                    let date2 = Date(timeIntervalSince1970: TimeInterval(1523368800)) //2018年4月10日星期二 22:00:00
+                    let articleDate = Date(timeIntervalSince1970: TimeInterval((self.a?.createdTime)!/1000))
+             
+                    
+                    if self.a?.tag == "ios 生活"  &&
+                        (articleDate > date1 &&  articleDate<date2)
+                        {
+                        print("time",self.a?.getTime())
+//                        print("--------")
+                        self.tagAndTime.append(self.a!)
+                        self.tagAndTime = self.tagAndTime.sorted(by: {$0.createdTime>$1.createdTime})
+                       print(self.tagAndTime)
+                    }
+                  }
+                }
+         
+         }) { (error) in
+            print(error.localizedDescription)
+        }
+      }
+    }
     
    
-}
+
